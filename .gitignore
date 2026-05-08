@@ -1,0 +1,6 @@
+layers/
+builds/
+downloads/
+sstate-cache/
+.cookerconfig
+*.pyc
