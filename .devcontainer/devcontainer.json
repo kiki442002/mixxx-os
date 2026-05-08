@@ -1,0 +1,27 @@
+{
+    "name": "Mixxx OS - Yocto Builder",
+    "build": {
+        "dockerfile": "./Dockerfile"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "workspaceFolder": "/workspace",
+    "mounts": [
+        "source=${localWorkspaceFolder}/downloads,target=/workspace/downloads,type=bind",
+        "source=${localWorkspaceFolder}/sstate-cache,target=/workspace/sstate-cache,type=bind"
+    ],
+    "remoteUser": "yocto",
+    "features": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "trond-snekvik.gnu-mapfiles",
+                "ms-vscode.cmake-tools"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    },
+    "postCreateCommand": "echo 'Yocto build environment ready. Run: cooker cook menu.json'"
+}
