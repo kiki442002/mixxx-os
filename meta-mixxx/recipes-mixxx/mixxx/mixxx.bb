@@ -37,10 +37,12 @@ DEPENDS += " \
     qtdeclarative \
     qt5compat \
     soundtouch \
-    wayland wayland-native qtwayland \
+    wayland wayland-native\
     virtual/libgles2 virtual/egl \
     microsoft-gsl \
 "
+
+RDEPENDS:${PN} = "qtwayland"
 
 
 # causes segfault trying to find debug libs
@@ -57,12 +59,13 @@ EXTRA_OECMAKE += " \
     -DLOCALECOMPARE=OFF \
     -DFAAD=ON \
     -DQTKEYCHAIN=OFF \
+    -DMIXXX_USE_GLES2=ON \
     -DProtobuf_PROTOC_EXECUTABLE=${STAGING_BINDIR_NATIVE}/protoc \
     -DCMAKE_PROJECT_INCLUDE=${WORKDIR}/cmake-inject/protobuf-native-fix.cmake \
 "
 
  
-TARGET_CPPFLAGS += "-D_GNU_SOURCE"
+TARGET_CPPFLAGS += "-D_GNU_SOURCE -UQT_NO_OPENGL -DQT_OPENGL_ES_2"
 
 FILES:${PN} += " \
     ${datadir}/appdata \
