@@ -33,6 +33,7 @@ DEPENDS += " \
     chromaprint \
     libdjinterop \
     libkeyfinder \
+    googletest \
     qtdeclarative \
     qt5compat \
     soundtouch \
@@ -57,6 +58,7 @@ EXTRA_OECMAKE += " \
     -DFAAD=ON \
     -DQTKEYCHAIN=OFF \
     -DProtobuf_PROTOC_EXECUTABLE=${STAGING_BINDIR_NATIVE}/protoc \
+    -DCMAKE_PROJECT_INCLUDE=${WORKDIR}/cmake-inject/protobuf-native-fix.cmake \
 "
 
  
@@ -68,6 +70,17 @@ FILES:${PN} += " \
 "
 
 do_configure:prepend() {
+    # Pre-create protobuf::protoc IMPORTED target pointing to the native x86 binary.
+    # This runs via CMAKE_PROJECT_INCLUDE (after project() but before find_package),
+    # so ProtobufConfig.cmake's "if(NOT TARGET protobuf::protoc)" guard is triggered
+    # and the ARM binary path is never used as the command.
+    mkdir -p ${WORKDIR}/cmake-inject
+    echo "set(Protobuf_PROTOC_EXECUTABLE \"${STAGING_BINDIR_NATIVE}/protoc\" CACHE FILEPATH \"\" FORCE)" > ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
+    echo "if(NOT TARGET protobuf::protoc)" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
+    echo "    add_executable(protobuf::protoc IMPORTED GLOBAL)" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
+    echo "endif()" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
+    echo "set_target_properties(protobuf::protoc PROPERTIES IMPORTED_LOCATION \"${STAGING_BINDIR_NATIVE}/protoc\")" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
+
     # 1. On remplace OpenGL::GL par la cible générique de Qt6 qui gère l'abstraction
     find ${S} -name "CMakeLists.txt" -exec sed -i 's/OpenGL::GL/Qt6::OpenGL/g' {} +
     
