@@ -20,6 +20,11 @@
 			"url": "git://git.yoctoproject.org/meta-raspberrypi",
 			"branch": "scarthgap",
 			"rev": "8767e2ff"
+		},
+		{
+			"url": "git://code.qt.io/yocto/meta-qt6",
+			"branch": "6.10",
+			"rev": "6.10"
 		}
 	],
 
@@ -29,7 +34,8 @@
 		"poky/meta-poky",
 		"poky/meta-yocto-bsp",
 		"meta-openembedded/meta-oe",
-		"meta-openembedded/meta-python"
+		"meta-openembedded/meta-python",
+		"yocto/meta-qt6"
 	],
 
 	"builds": {
@@ -43,7 +49,7 @@
 
 			"local.conf": [
 				"MACHINE = 'raspberrypi4-64'",
-				"DISTRO = 'mixxx'",
+				"DISTRO = 'mixxx-os'",
 				"VC4GRAPHICS = '1'"
 			]
 		}

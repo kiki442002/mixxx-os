@@ -9,4 +9,6 @@ IMAGE_INSTALL:append = " \
     weston-init \
     weston-examples \
     kernel-modules \
+    mixxx \
+    mixxx-service \
 "

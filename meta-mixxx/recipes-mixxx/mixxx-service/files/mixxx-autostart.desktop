@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Mixxx
+Comment=DJ Software
+Exec=/usr/bin/mixxx
+X-GNOME-Autostart-enabled=true

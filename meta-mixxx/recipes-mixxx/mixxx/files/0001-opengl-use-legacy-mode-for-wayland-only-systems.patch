@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 95eb1c8f21..a6bcbe7186 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2731,7 +2731,7 @@ else()
+     set(_previous_find_framework ${CMAKE_FIND_FRAMEWORK})
+     set(CMAKE_FIND_FRAMEWORK FIRST)
+   endif()
+-  set(OpenGL_GL_PREFERENCE "GLVND")
++  set(OpenGL_GL_PREFERENCE "LEGACY")
+   find_package(OpenGL REQUIRED)
+   if(EMSCRIPTEN)
+     # Emscripten's FindOpenGL.cmake does not create OpenGL::GL
