@@ -31,13 +31,15 @@ DEPENDS += " \
     libmodplug \
     libebur128 \
     chromaprint \
+    libkeyfinder \
     qtdeclarative \
     qt5compat \
     soundtouch \
-    wayland wayland-native qtwayland\
+    wayland wayland-native qtwayland \
     virtual/libgles2 virtual/egl \
     microsoft-gsl \
 "
+
 
 # causes segfault trying to find debug libs
 #    gperftools
