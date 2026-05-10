@@ -31,6 +31,7 @@ DEPENDS += " \
     libmodplug \
     libebur128 \
     chromaprint \
+    libdjinterop \
     libkeyfinder \
     qtdeclarative \
     qt5compat \
