@@ -59,13 +59,12 @@ EXTRA_OECMAKE += " \
     -DLOCALECOMPARE=OFF \
     -DFAAD=ON \
     -DQTKEYCHAIN=OFF \
-    -DMIXXX_USE_GLES2=ON \
     -DProtobuf_PROTOC_EXECUTABLE=${STAGING_BINDIR_NATIVE}/protoc \
     -DCMAKE_PROJECT_INCLUDE=${WORKDIR}/cmake-inject/protobuf-native-fix.cmake \
 "
 
  
-TARGET_CPPFLAGS += "-D_GNU_SOURCE -UQT_NO_OPENGL -DQT_OPENGL_ES_2"
+TARGET_CPPFLAGS += "-D_GNU_SOURCE -I${STAGING_INCDIR}"
 
 FILES:${PN} += " \
     ${datadir}/appdata \
@@ -84,13 +83,4 @@ do_configure:prepend() {
     echo "endif()" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
     echo "set_target_properties(protobuf::protoc PROPERTIES IMPORTED_LOCATION \"${STAGING_BINDIR_NATIVE}/protoc\")" >> ${WORKDIR}/cmake-inject/protobuf-native-fix.cmake
 
-    # 1. On remplace OpenGL::GL par la cible générique de Qt6 qui gère l'abstraction
-    find ${S} -name "CMakeLists.txt" -exec sed -i 's/OpenGL::GL/Qt6::OpenGL/g' {} +
-    
-    # 2. Si Mixxx cherche spécifiquement EGL, on le redirige vers la cible Qt6
-    find ${S} -name "CMakeLists.txt" -exec sed -i 's/OpenGL::EGL/Qt6::Gui/g' {} +
-
-    # 3. Optionnel mais conseillé : Forcer CMake à ignorer la recherche du package OpenGL standard
-    # qui est souvent la source du problème de détection GLX
-    find ${S} -name "CMakeLists.txt" -exec sed -i 's/find_package(OpenGL/find_package(Qt6 COMPONENTS OpenGL/g' {} +
 }
